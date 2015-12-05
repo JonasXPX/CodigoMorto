@@ -21,7 +21,7 @@ public class Blocked extends JavaPlugin implements Listener {
 	}
 
 	/**
-	 * Bloqueia a contrução do bloco COMMAND
+	 * Bloqueia a construÃ§Ã£o do bloco COMMAND
 	 * @param event
 	 */
 	@EventHandler
