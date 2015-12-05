@@ -13,63 +13,71 @@ import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Blocked extends JavaPlugin implements Listener{
+public class Blocked extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
 		getServer().getPluginManager().registerEvents(this, this);
 	}
-	
-	
+
 	@EventHandler
-	public void commd(BlockPlaceEvent e){
-		if(e.getBlock().getType() == Material.COMMAND){
-			e.setCancelled(true);
+	public void commd(BlockPlaceEvent event) {
+		if (event.getBlock().getType() == Material.COMMAND) {
+			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
-	public void onOpen(InventoryOpenEvent e){
-		for(ItemStack i : e.getInventory().getContents()){
-			if(i == null){
+	public void onOpen(InventoryOpenEvent event) {
+		for (ItemStack i : event.getInventory().getContents()) {
+			if (i == null) {
 				return;
 			}
-			if(i.hasItemMeta()){
-				if(i.getItemMeta().hasEnchants()){
-					for(Enchantment en : i.getEnchantments().keySet()){
-						if(i.getEnchantments().get(en) > en.getMaxLevel()){
-							System.out.println("Enchant removido: " + en.getName() + " lv: " + i.getEnchantments().get(en));
-							i.removeEnchantment(en);
+			if (i.hasItemMeta()) {
+				if (i.getItemMeta().hasEnchants()) {
+					for (Enchantment enhant : i.getEnchantments().keySet()) {
+						if (i.getEnchantments().get(enhant) > enhant
+								.getMaxLevel()) {
+							System.out.println("Enchant removido: "
+									+ enhant.getName() + " lv: "
+									+ i.getEnchantments().get(enhant));
+							i.removeEnchantment(enhant);
 						}
 					}
 				}
 			}
 		}
 	}
-	
+
 	@EventHandler
-	public void onLoad(ChunkLoadEvent e){
-		Chunk c = e.getChunk();
-		for(BlockState b : c.getTileEntities()){
-			if(b.getType() == Material.COMMAND){
-				b.setType(Material.AIR);
+	public void onLoad(ChunkLoadEvent event) {
+		Chunk chunk = event.getChunk();
+		for (BlockState bState : chunk.getTileEntities()) {
+			if (bState.getType() == Material.COMMAND) {
+				bState.setType(Material.AIR);
 			}
-			if(b instanceof Chest){
-				Chest chest = (Chest)b;
-				for(ItemStack i : chest.getInventory().getContents()){
-					if(i == null){
+			if (bState instanceof Chest) {
+				Chest chest = (Chest) bState;
+				for (ItemStack item : chest.getInventory().getContents()) {
+					if (item == null) {
 						return;
 					}
-					if(i.hasItemMeta()){
-						if(i.getItemMeta().hasEnchants()){
-							for(Enchantment en : i.getEnchantments().keySet()){
-								if(i.getEnchantments().get(en) > en.getMaxLevel()){
-									System.out.println("Enchant removido: " + en.getName() + " lv: " + i.getEnchantments().get(en));
-									i.removeEnchantment(en);
-								}
-							}
+					if (!item.hasItemMeta()) {
+						return;
+					}
+					if (!item.getItemMeta().hasEnchants()) {
+						return;
+					}
+					for (Enchantment enhant : item.getEnchantments().keySet()) {
+						if (item.getEnchantments().get(enhant) > enhant
+								.getMaxLevel()) {
+							System.out.println("Enchant removido: "
+									+ enhant.getName() + " lv: "
+									+ item.getEnchantments().get(enhant));
+							item.removeEnchantment(enhant);
 						}
 					}
+
 				}
 			}
 		}
