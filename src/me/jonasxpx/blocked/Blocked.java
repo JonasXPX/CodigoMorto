@@ -20,6 +20,10 @@ public class Blocked extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(this, this);
 	}
 
+	/**
+	 * Bloqueia a contrução do bloco COMMAND
+	 * @param event
+	 */
 	@EventHandler
 	public void commd(BlockPlaceEvent event) {
 		if (event.getBlock().getType() == Material.COMMAND) {
@@ -27,6 +31,12 @@ public class Blocked extends JavaPlugin implements Listener {
 		}
 	}
 
+	
+	/**
+	 * Removo todo tipo de enchant editado quando um
+	 * jogador abre qualquer tipo de inventario
+	 * @param event
+	 */
 	@EventHandler
 	public void onOpen(InventoryOpenEvent event) {
 		for (ItemStack i : event.getInventory().getContents()) {
@@ -36,11 +46,8 @@ public class Blocked extends JavaPlugin implements Listener {
 			if (i.hasItemMeta()) {
 				if (i.getItemMeta().hasEnchants()) {
 					for (Enchantment enhant : i.getEnchantments().keySet()) {
-						if (i.getEnchantments().get(enhant) > enhant
-								.getMaxLevel()) {
-							System.out.println("Enchant removido: "
-									+ enhant.getName() + " lv: "
-									+ i.getEnchantments().get(enhant));
+						if (i.getEnchantments().get(enhant) > enhant.getMaxLevel()) {
+							System.out.println("Enchant removido: "	+ enhant.getName() + " lv: "+ i.getEnchantments().get(enhant));
 							i.removeEnchantment(enhant);
 						}
 					}
@@ -49,6 +56,12 @@ public class Blocked extends JavaPlugin implements Listener {
 		}
 	}
 
+	
+	/**
+	 *  Remove todos os itens no bau durante 
+	 *  o carregamento de uma chunk
+	 * @param event
+	 */
 	@EventHandler
 	public void onLoad(ChunkLoadEvent event) {
 		Chunk chunk = event.getChunk();
@@ -69,11 +82,8 @@ public class Blocked extends JavaPlugin implements Listener {
 						return;
 					}
 					for (Enchantment enhant : item.getEnchantments().keySet()) {
-						if (item.getEnchantments().get(enhant) > enhant
-								.getMaxLevel()) {
-							System.out.println("Enchant removido: "
-									+ enhant.getName() + " lv: "
-									+ item.getEnchantments().get(enhant));
+						if (item.getEnchantments().get(enhant) > enhant.getMaxLevel()) {
+							System.out.println("Enchant removido: "+ enhant.getName() + " lv: "+ item.getEnchantments().get(enhant));
 							item.removeEnchantment(enhant);
 						}
 					}
