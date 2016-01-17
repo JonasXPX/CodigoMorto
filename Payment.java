@@ -113,8 +113,21 @@ public class Payment
     return false;
   }
   
+  // Código abaixo não faz parte do plugin, e foi implementado para corrigir um possível 'bug'. Ultima edição por JonasXPX.
+  
+  
+  /**
+   * 
+   * MAP
+   * 
+   **/
   private static HashMap<String, Long> delay = new HashMap<String, Long>();
   
+  /**
+   * 
+   * is Delayed ? 
+   * 
+   **/
   public static boolean isDelayed(String player){
 	  if(!delay.containsKey(player)){
 		  return false;
@@ -123,13 +136,16 @@ public class Payment
 		  if(delay.get(player) > System.currentTimeMillis()){
 			  return true;
 		  }
-		  
-		  
 		  return false;
 	  }
 	  return false;
   }
   
+  /**
+   * 
+   * Is delayed ? no, put in delay.
+   * 
+   **/
   public static void setInDelay(String player){
 	  delay.put(player, System.currentTimeMillis() + 4000);
   }
